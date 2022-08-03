@@ -1,12 +1,25 @@
 import React from 'react'
 
 import logo from "../../assets/images/icon/main_logo_beta.wh.svg";
-
-function Header() {
+import ConnectWallet from "../../components/connect_wallet/ConnectWallet";
+import styles from "./Header.module.scss"
+function Header(props) {
     return (
         <>
-            <div style={{ width:'100%', background: '#070721' }}>
-                <img src={logo} style={{ width:'250px',margin:'1rem 3rem'}} alt="header logo"/>
+            <div className={styles.header}>
+                <img src={logo} alt="header logo"/>
+                {props.accounts && props.accounts.length > 0 && props.isConnected === 'YES' ? (
+                    <>
+                        <ConnectWallet accounts={props.accounts} apiToken={props.apiToken} isConnected={props.isConnected} networkId={props.networkId}
+                                       handleKaikasConnect={() => props.handleKaikasConnect()}
+                                       handleLogout={() => props.handleLogout()}/>
+
+                    </>
+                ) : (
+                    <ConnectWallet accounts={props.accounts} apiToken={props.apiToken} isConnected={props.isConnected} networkId={props.networkId}
+                                   handleKaikasConnect={() => props.handleKaikasConnect()}/>
+                )
+                }
             </div>
         </>
     )

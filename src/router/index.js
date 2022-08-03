@@ -154,7 +154,8 @@ function Index() {
     return (
 
         <BrowserRouter>
-            <Header/>
+            <Header accounts={accounts} apiToken={apiToken} isConnected={isConnectedWallet} networkId={networkId}
+                    handleKaikasConnect={() => connectKaikas()} handleLogout={() => logout()} />
             <Switch>
                 <Route exact path="/">
                     <Home accounts={accounts} apiToken={apiToken} isConnected={isConnectedWallet} networkId={networkId}

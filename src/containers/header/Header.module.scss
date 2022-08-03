@@ -1,0 +1,14 @@
+.header{
+  width: 100%;
+  background: #070721;
+  display : flex;
+  justify-content: space-between;
+  @media screen and (max-width: 500px) {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  img{
+    width: 250px;
+    margin: 1rem 3rem;
+  }
+}
