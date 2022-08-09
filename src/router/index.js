@@ -91,7 +91,7 @@ function Index() {
                 const token = localStorage.getItem('aniverse_token');
                 if(token === null){
                     //토큰생성
-                    const res = await GET(`/api/v1/auth/user/${account}/uuid`);
+                    const res = await GET(`/api/v1/auth/special_mint/${account}/uuid`);
                     // sign
                     const message = res.uuid;
                     const provider = window['klaytn'];
@@ -100,7 +100,7 @@ function Index() {
                     await caver.klay.sign(message, account).then(async (message)=>{
                         // get JWT
                         // jwt = await requestSignin(address, signedMessage);
-                        await POST(`/api/v1/auth/user/signin`, {
+                        await POST(`/api/v1/auth/special_mint/signin`, {
                             address: account,
                             message
                         }).then((sign) => {
