@@ -5,6 +5,8 @@ import LoadingModal from "../../loading_modal/LoadingModal"
 import styles from "./SpecialNftMint.module.scss"
 import main_image from "../../../assets/images/minting_mainImg.png";
 import backgroundImg from "../../../assets/images/minting_back.jpg";
+import Caver from "caver-js";
+
 function SpecialNftMint(props) {
     const [showLoading, setShowLoading] = useState(false); // 로딩 모달
 
@@ -13,8 +15,9 @@ function SpecialNftMint(props) {
     const [alerts, setAlerts] = useState("");
 
     const [disable, setDisable] = useState(true);
-    const currentBlock = '#97446020'; // 현재 블록
-    const mintingStartAt = '2022.08.19 16:00PM'; // 시작시간
+
+    const [currentBlock, setCurrentBlock] = useState("");// 현재 블록
+    const mintingStartAt = '2022.08.19 12:00PM'; // 시작시간
     const [myTotalMintCount, setMyTotalMintCount] = useState(0); // 나의 민팅가능 횟수
     const [myMintCount, setMyMintCount] = useState(0); // 나의 민팅한 횟수
     const [totalMintCount, setTotalMintCount] = useState(0); // 총 민팅가능 NFT 수량
@@ -22,12 +25,20 @@ function SpecialNftMint(props) {
 
     useEffect(() => {
         totalCount();
+        setInterval(() => getBlockNumber(), 1000);
     }, []);
     useEffect(() => {
         if(props.accounts[0] !== undefined && props.apiToken){
             nftMintCount();
         }
     }, [props.accounts]);
+
+    function getBlockNumber(){
+        const provider = window['klaytn'];
+        const caver = new Caver(provider);
+        caver.klay.getBlockNumber().then( n => setCurrentBlock(`#${n}`));
+    }
+
     async function totalCount() {
         try {
             const result = await POST(`/api/v1/special/totalcount`, '', props.apiToken);
