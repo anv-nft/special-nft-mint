@@ -17,7 +17,7 @@ function SpecialNftMint(props) {
     const [disable, setDisable] = useState(true);
 
     const [currentBlock, setCurrentBlock] = useState("");// 현재 블록
-    const mintingStartAt = '2022.08.19 12:00PM'; // 시작시간
+    const mintingStartAt = '2022.08.19 15:00PM'; // 시작시간
     const [myTotalMintCount, setMyTotalMintCount] = useState(0); // 나의 민팅가능 횟수
     const [myMintCount, setMyMintCount] = useState(0); // 나의 민팅한 횟수
     const [totalMintCount, setTotalMintCount] = useState(0); // 총 민팅가능 NFT 수량
@@ -77,12 +77,13 @@ function SpecialNftMint(props) {
             if(mintResult.result === 'success'){
                 // 성공시
                 setMyMintCount(myMintCount + 1);
+                setTotalMintCount(myMintCount + 1);
                 setAlerts(`Token ID ${mintResult.data} Mint Success`);
                 setShowAlertModal(true);
             } else {
                 // 실패시
                 if(mintResult.error !== {}){
-                    setAlerts(mintResult.error);
+                    setAlerts(mintResult.error['_message']);
                 } else {
                     setAlerts("Mint Fail ");
                 }
@@ -91,7 +92,6 @@ function SpecialNftMint(props) {
         } catch (e){
             setAlerts("Mint Fail ");
             setShowAlertModal(true);
-            console.log(e);
         }
         setShowMintModal(false);
         setShowLoading(false);
@@ -116,7 +116,7 @@ function SpecialNftMint(props) {
                     </div>
                     {props.accounts && props.accounts.length > 0 && props.isConnected === 'YES' ? (
                             <div className={`${styles.box_100} ${styles.box}`}>
-                                <span className={styles.box_title}>민팅 가능 수량</span>
+                                <span className={styles.box_title}>민팅 완료 수량 / 총 민팅 가능 수량</span>
                                 <span className={styles.box_text}>{myMintCount}<span> / {myTotalMintCount}</span></span>
                             </div>
                     ) : (
